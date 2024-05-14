@@ -90,13 +90,14 @@ const Table = ({ setSelectedTransaction }) => {
                     }}
                   >
                     {transaction.type === "EXPENSE"
-                      ? `-$${Math.abs(
-                          transaction.amount.toLocaleString("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                          })
-                        )}`
-                      : `$${transaction.amount}`}
+                      ? `${transaction.amount.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        })}`
+                      : `${transaction.amount.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        })}`}
                   </td>
                   <td className="px-4 py-2 space-x-2 font-bold">
                     <button onClick={() => handleEdit(transaction)}>

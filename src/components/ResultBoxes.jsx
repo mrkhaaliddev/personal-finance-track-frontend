@@ -21,7 +21,11 @@ const ResultBoxes = () => {
   }
 
   const formattedIncome =
-    totalIncome && totalIncome?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
+    totalIncome &&
+    totalIncome?.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
 
   // Reading total Expense from Database
   const { data: TotalExpense, isLoading: ExpenseLoading } =
@@ -36,7 +40,10 @@ const ResultBoxes = () => {
 
   const formattedExpense =
     totalExpense &&
-    totalExpense?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
+    totalExpense?.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
 
   // Reading month Income from Database
   const { data: MonthIncome, isLoading: MonthIncomeLoading } =
@@ -50,7 +57,10 @@ const ResultBoxes = () => {
 
   const formattedMonthIncome =
     ThisMonthIncome &&
-    ThisMonthIncome?.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
+    ThisMonthIncome?.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
   // Reading month Expense from Database
 
   const { data: MonthExpense, isLoading: MonthExpenseLoading } =
@@ -76,7 +86,7 @@ const ResultBoxes = () => {
           <div>
             <p className="font-semibold text-gray-400">Total Income</p>
             <h1 className="text-2xl font-bold text-green-800">
-              {IncomeLoading ? <MoneySkeleton /> : `$${formattedIncome}`}
+              {IncomeLoading ? <MoneySkeleton /> : `${formattedIncome}`}
             </h1>
           </div>
         </div>
@@ -85,7 +95,7 @@ const ResultBoxes = () => {
           <div>
             <p className="font-semibold text-gray-400">Total Expenses</p>
             <h1 className="text-2xl font-bold text-red-600">
-              {ExpenseLoading ? <MoneySkeleton /> : `-$${formattedExpense}`}
+              {ExpenseLoading ? <MoneySkeleton /> : `${formattedExpense}`}
             </h1>
           </div>
         </div>
@@ -97,7 +107,7 @@ const ResultBoxes = () => {
               {MonthIncomeLoading ? (
                 <MoneySkeleton />
               ) : (
-                `$${formattedMonthIncome}`
+                `${formattedMonthIncome}`
               )}
             </h1>
           </div>
