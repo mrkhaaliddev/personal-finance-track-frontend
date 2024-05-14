@@ -1,0 +1,62 @@
+[
+  {
+    "label": "Jan",
+    "Income": 300,
+    "expenses": 200
+  },
+  {
+    "label": "Feb",
+    "Income": 350,
+    "expenses": 120
+  },
+  {
+    "label": "Mar",
+    "Income": 300,
+    "expenses": 340
+  },
+  {
+    "label": "Apr",
+    "Income": 400,
+    "expenses": 100
+  },
+  {
+    "label": "May",
+    "Income": 600,
+    "expenses": 300
+  },
+  {
+    "label": "Jun",
+    "Income": 800,
+    "expenses": 500
+  },
+  {
+    "label": "Jul",
+    "Income": 1000,
+    "expenses": 700
+  },
+  {
+    "label": "Aug",
+    "Income": 1000,
+    "expenses": 1200
+  },
+  {
+    "label": "Sep",
+    "Income": 1100,
+    "expenses": 900
+  },
+  {
+    "label": "Oct",
+    "Income": 1200,
+    "expenses": 1000
+  },
+  {
+    "label": "Nov",
+    "Income": 2000,
+    "expenses": 1500
+  },
+  {
+    "label": "Dec",
+    "Income": 3000,
+    "expenses": 2300
+  }
+]
