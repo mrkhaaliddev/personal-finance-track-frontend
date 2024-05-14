@@ -5,13 +5,17 @@ import { ModelShowContext } from "../../context/ModelShow";
 import Table from "./Table";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { useGetTransactionsQuery } from "../../redux/transaction/transactionApi";
+import ReactToPrint from "react-to-print";
+import PrintableComponent from "./PrintableComponent ";
+import { IoPrintOutline } from "react-icons/io5";
 
 // import DataTable from "react-data-table-component";
 const TransactionTable = () => {
   // this is for hidden and showing the filter dropdown
-  const [filter, setFilter] = useState();
+  const [filter, setFilter] = useState(); // got
   // this is for model show or hidden and it's context Api
-  const { showModal, handleModelShow } = useContext(ModelShowContext);
+  const { showModal, handleModelShow } = useContext(ModelShowContext); // got
   // this have the data of the table taking from localStorage
   const [TransactionForms, setTransactionForms] = useState([]);
   // this is for edit or update table
@@ -20,69 +24,90 @@ const TransactionTable = () => {
   // this is for search filtering
   const [searchResults, setSearchResults] = useState([]);
   // making filter dropdowns
-  const [isExpenseChecked, setIsExpenseChecked] = useState(true);
-  const [isIncomeChecked, setIsIncomeChecked] = useState(true);
-  const filterRef = useRef(null);
+  const [isExpenseChecked, setIsExpenseChecked] = useState(true); // got
+  const [isIncomeChecked, setIsIncomeChecked] = useState(true); // got
+  const filterRef = useRef(null); // got
   // looking the selected helping for the edit
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   // this have the column and the rows of the table
   // const [transactionData, setTransactionData] = useState([]);
+  const [transactionType, setTransactionType] = useState(null);
 
-  // const handleFilter = () => {
-  //   setFilter(!filter);
-  // };
+  // getting the table from the database
+  const { data: TransactionData } = useGetTransactionsQuery();
+  const componentRef = useRef();
+
+  useEffect(() => {
+    const transactionValue = TransactionData?.data.map(
+      (transaction) => transaction.type
+    );
+    setTransactionType(transactionValue);
+  }, [TransactionData]);
+
+  // useEffect(() => {}, [TransactionData]);
+  // if (TransactionData?.data.length) {
+  //   console.log(transactionType);
+  // }
+
+  // console.log(transactionType);
+
+  const handleFilter = () => {
+    setFilter(!filter);
+  };
 
   // removes the dropdowns if the user clicks outside
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (filterRef.current && !filterRef.current.contains(event.target)) {
-  //       setFilter(false); // Close the dropdown if clicking outside
-  //     }
-  //     // console.log(event.target);
-  //     // console.log(filterRef.current);
-  //   };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setFilter(false);
+      }
+    };
 
-  //   document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [filter]);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [filter]);
 
   // filtering functionality
   // Function to handle Income checkbox
-  // const handleIncomeChange = () => {
-  //   // If both are true or if Expense is false (meaning Income is true), toggle Income.
-  //   if (isExpenseChecked || !isIncomeChecked) {
-  //     setIsIncomeChecked(!isIncomeChecked);
-  //   }
-  // };
+  const handleIncomeChange = () => {
+    // If both are true or if Expense is false (meaning Income is true), toggle Income.
+    if (isExpenseChecked || !isIncomeChecked) {
+      setIsIncomeChecked(!isIncomeChecked);
+    }
+  };
 
   // Function to handle Expense checkbox
-  // const handleExpenseChange = () => {
-  //   // If both are true or if Income is false (meaning Expense is true), toggle Expense.
-  //   if (isIncomeChecked || !isExpenseChecked) {
-  //     setIsExpenseChecked(!isExpenseChecked);
-  //   }
-  // };
+  const handleExpenseChange = () => {
+    // If both are true or if Income is false (meaning Expense is true), toggle Expense.
+    if (isIncomeChecked || !isExpenseChecked) {
+      setIsExpenseChecked(!isExpenseChecked);
+    }
+  };
 
   // handleSearch it is about the search filter
   // handle filter
-  // const ApplyFilter = () => {
-  //   const filteredResult = TransactionForms.filter((transaction) => {
-  //     const isIncome = transaction.type === "income" && isIncomeChecked;
-  //     const isExpense = transaction.type === "expense" && isExpenseChecked;
+  const ApplyFilter = () => {
+    const filteredResult = TransactionData?.data.map((transaction) => {
+      const isIncome = transaction.type === "INCOME" && isIncomeChecked;
+      const isExpense = transaction.type === "EXPENSE" && isExpenseChecked;
 
-  //     // console.log(isIncome);
-  //     // console.log(isIncomeChecked);
-  //     // console.log(isExpense);
-  //     // console.log(isExpenseChecked);
-  //     return isIncome || isExpense;
-  //   });
+      // console.log(isIncome);
+      // console.log(isIncomeChecked);
+      // console.log(isExpense);
+      // console.log(isExpenseChecked);
 
-  //   setSearchResults(filteredResult);
-  //   return filteredResult;
-  // };
+      // console.log(transaction.type);
+      return isIncome || isExpense;
+    });
+
+    setSearchResults(filteredResult);
+
+    console.log(filteredResult);
+    return filteredResult;
+  };
 
   // const handleSearch = (event) => {
   //   const searchTerm = event.target.value.toLowerCase();
@@ -103,46 +128,46 @@ const TransactionTable = () => {
   //   // console.log(filteredResults);
   // };
 
-  // useEffect(() => {
-  //   ApplyFilter();
-  // }, [TransactionForms, isExpenseChecked, isIncomeChecked]);
+  useEffect(() => {
+    ApplyFilter();
+  }, [TransactionData, isExpenseChecked, isIncomeChecked]);
 
   //Export pdf
-  // const downloadPdf = () => {
-  //   const pdf = new jsPDF();
+  const downloadPdf = () => {
+    const pdf = new jsPDF();
 
-  //   // Define the columns for the table
-  //   const columns = [
-  //     { title: "Date", dataKey: "date" },
-  //     { title: "Username", dataKey: "username" },
-  //     { title: "Description", dataKey: "description" },
-  //     { title: "Category", dataKey: "category" },
-  //     { title: "Amount", dataKey: "amount" },
-  //     // Add more columns as needed
-  //   ];
+    // Define the columns for the table
+    const columns = [
+      { title: "Date", dataKey: "date" },
+      { title: "Username", dataKey: "username" },
+      { title: "Description", dataKey: "description" },
+      { title: "Category", dataKey: "category" },
+      { title: "Amount", dataKey: "amount" },
+      // Add more columns as needed
+    ];
 
-  //   // Use your state that contains the table data
-  //   const data = transactionData.map((item) => ({
-  //     date: item.transactionDate,
-  //     username: item.name,
-  //     description: item.description,
-  //     category: item.category,
-  //     amount: item.amount,
-  //     // Map other properties as needed
-  //   }));
+    // Use your state that contains the table data
+    const data = TransactionData?.data.map((item) => ({
+      date: item.transactionDate,
+      username: item.name,
+      description: item.description,
+      category: item.category,
+      amount: item.amount,
+      // Map other properties as needed
+    }));
 
-  //   // Add a title
-  //   pdf.text("Personal Finance Manager", 20, 20);
+    // Add a title
+    pdf.text("Personal Finance Manager", 20, 20);
 
-  //   // Add the table to the PDF
-  //   pdf.autoTable({
-  //     columns: columns,
-  //     body: data,
-  //   });
+    // Add the table to the PDF
+    pdf.autoTable({
+      columns: columns,
+      body: data,
+    });
 
-  //   // Save the PDF
-  //   pdf.save("table.pdf");
-  // };
+    // Save the PDF
+    pdf.save("table.pdf");
+  };
 
   return (
     <>
@@ -185,13 +210,13 @@ const TransactionTable = () => {
               ref={filterRef}
             >
               <button
-                // onClick={handleFilter}
+                onClick={handleFilter}
                 className="z-10 flex items-center mb-4 gap-x-3"
               >
                 Filter <ChevronDown />{" "}
               </button>
               <div
-                className={` absolute mt-10 w-40 h-fit bg-[#F5F5F5] rounded-md py-2 px-2 gap-y-1 ${
+                className={` absolute z-10 mt-10 w-40 h-fit bg-[#F5F5F5] rounded-md py-2 px-2 gap-y-1 ${
                   filter ? "block" : "hidden"
                 }`}
               >
@@ -199,11 +224,14 @@ const TransactionTable = () => {
                   <input
                     type="checkbox"
                     className="w-4 h-4 cursor-pointer"
-                    // checked={isIncomeChecked}
+                    checked={isIncomeChecked}
                     id="income"
-                    // onChange={handleIncomeChange}
+                    onChange={handleIncomeChange}
                   />
-                  <label htmlFor="income" className="cursor-pointer">
+                  <label
+                    htmlFor="income"
+                    className="cursor-pointer select-none"
+                  >
                     Income
                   </label>
                 </div>
@@ -211,23 +239,47 @@ const TransactionTable = () => {
                   <input
                     type="checkbox"
                     className="w-4 h-4 cursor-pointer"
-                    // checked={isExpenseChecked}
+                    checked={isExpenseChecked}
                     id="expense"
-                    // onChange={handleExpenseChange}
+                    onChange={handleExpenseChange}
                   />
-                  <label htmlFor="expense" className="cursor-pointer">
+                  <label
+                    htmlFor="expense"
+                    className="cursor-pointer select-none"
+                  >
                     Expense
                   </label>
                 </div>
               </div>
             </div>
             <button
-              // onClick={downloadPdf}
+              onClick={downloadPdf}
               className="flex items-center h-8 px-3 text-sm border-2 border-[#121B28] hover:text-white hover:bg-[#121B28] rounded-md"
             >
               <Download className="w-4 h-4 mr-1" />
               Export
             </button>
+            <div>
+              <ReactToPrint
+                trigger={() => (
+                  <button className="flex items-center h-8 px-3 text-sm border-2 border-[#121B28] hover:text-white hover:bg-[#121B28] rounded-md">
+                    <IoPrintOutline className="w-[18px] h-[18px] mr-1" />
+                    Print Here
+                  </button>
+                )}
+                content={() => componentRef.current}
+                documentTitle="Transaction Report"
+                pageStyle="print"
+                onAfterPrint={() => console.log("Printed")}
+                // onBeforePrint={() => console.log("Before Print")}
+              />
+              <div style={{ display: "none" }}>
+                <PrintableComponent
+                  ref={componentRef}
+                  data={TransactionData?.data || []}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
