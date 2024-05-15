@@ -10,14 +10,18 @@ export const transactionApi = createApi({
   baseQuery,
   tagTypes: ["Transaction"],
   endpoints: (builder) => ({
-    GetTransactions: builder.query({
-      query: () => ({
-        url: `${TRANSACTIONURL}/get-Transaction`,
+    getTransactions: builder.query({
+      query: ({ type }) => ({
+        url: type
+          ? `${TRANSACTIONURL}/get-Transaction?type=${type}`
+          : `${TRANSACTIONURL}/get-Transaction`,
         method: "GET",
       }),
-      providesTags: ["Transaction"],
+      providesTags: (result, error, { type }) => {
+        return [{ type: "Transaction", id: type, user: result.data[0].user }];
+      },
     }),
-    CreateTransaction: builder.mutation({
+    createTransaction: builder.mutation({
       query: (data) => ({
         url: `${TRANSACTIONURL}/create-Transaction`,
         method: "POST",
@@ -25,14 +29,14 @@ export const transactionApi = createApi({
       }),
       invalidatesTags: ["Transaction"],
     }),
-    DeleteTransaction: builder.mutation({
+    deleteTransaction: builder.mutation({
       query: (transactionID) => ({
         url: `${TRANSACTIONURL}/delete-Transaction/${transactionID}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Transaction"],
     }),
-    UpdateTransaction: builder.mutation({
+    updateTransaction: builder.mutation({
       query: ({ data, id }) => ({
         url: `${TRANSACTIONURL}/update-Transaction/${id}`,
         method: "PATCH",
@@ -40,28 +44,28 @@ export const transactionApi = createApi({
       }),
       invalidatesTags: ["Transaction"],
     }),
-    TotalIncomeAggrigate: builder.query({
+    totalIncomeAggrigate: builder.query({
       query: () => ({
         url: `${TRANSACTIONURL}/Totalincome-aggrigation`,
         method: "GET",
       }),
       providesTags: ["Transaction"],
     }),
-    TotalExpenseAggrigate: builder.query({
+    totalExpenseAggrigate: builder.query({
       query: () => ({
         url: `${TRANSACTIONURL}/Totalexpense-aggrigation`,
         method: "GET",
       }),
       providesTags: ["Transaction"],
     }),
-    MonthIncome: builder.query({
+    monthIncome: builder.query({
       query: () => ({
         url: `${TRANSACTIONURL}/MonthIncome`,
         method: "GET",
       }),
       providesTags: ["Transaction"],
     }),
-    MonthExpense: builder.query({
+    monthExpense: builder.query({
       query: () => ({
         url: `${TRANSACTIONURL}/MonthExpense`,
         method: "GET",

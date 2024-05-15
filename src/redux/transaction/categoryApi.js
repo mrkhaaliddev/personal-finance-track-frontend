@@ -7,14 +7,14 @@ export const categoryApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "" }),
   tagTypes: ["Category"],
   endpoints: (builder) => ({
-    GetCategories: builder.query({
+    getCategories: builder.query({
       query: () => ({
         url: `${categoryUrl}/get_category`,
         method: "GET",
       }),
       providesTags: ["Category"],
     }),
-    CreateCategories: builder.mutation({
+    createCategories: builder.mutation({
       query: (data) => ({
         url: `${categoryUrl}/create_category`,
         method: "POST",
@@ -22,7 +22,7 @@ export const categoryApi = createApi({
       }),
       invalidatesTags: ["Category"],
     }),
-    UpdateCategories: builder.mutation({
+    updateCategories: builder.mutation({
       query: ({ data, categoryId }) => ({
         url: `${categoryUrl}/update_category/${categoryId}`,
         method: "PATCH",
@@ -31,7 +31,7 @@ export const categoryApi = createApi({
       invalidatesTags: ["Category"],
     }),
 
-    DeleteCategories: builder.mutation({
+    deleteCategories: builder.mutation({
       query: (categoryId) => ({
         url: `${categoryUrl}/delete_category/${categoryId}`,
         method: "DELETE",

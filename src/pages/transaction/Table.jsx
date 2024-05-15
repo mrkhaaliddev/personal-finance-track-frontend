@@ -9,10 +9,11 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
 import { ModelShowContext } from "../../context/ModelShow";
 import TransectionSkeleton from "./TransectionSkeleton";
-import { Skeletoncatgory } from "../category/Skeletoncatgory";
 
-const Table = ({ setSelectedTransaction }) => {
-  const { data, isLoading } = useGetTransactionsQuery();
+const Table = ({ setSelectedTransaction, transactionType }) => {
+  const { data, isLoading } = useGetTransactionsQuery({
+    type: transactionType,
+  });
   // setTransactionData(data?.data || []);
   const [DeleteTransaction, { isLoading: isDeleting }] =
     useDeleteTransactionMutation();
