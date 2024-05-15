@@ -72,6 +72,11 @@ export const transactionApi = createApi({
       }),
       providesTags: ["Transaction"],
     }),
+    getTransactionBalance: builder.query({
+      query: () => ({
+        url: `${TRANSACTIONURL}/balance`,
+      }),
+    }),
   }),
 });
 
@@ -84,4 +89,5 @@ export const {
   useTotalExpenseAggrigateQuery,
   useMonthIncomeQuery,
   useMonthExpenseQuery,
+  useGetTransactionBalanceQuery,
 } = transactionApi;
