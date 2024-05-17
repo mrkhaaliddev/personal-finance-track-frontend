@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { ChevronDown, Download } from "react-feather";
 import TransactionForm from "./TransactionForm";
 import { ModelShowContext } from "../../context/ModelShow";
@@ -139,6 +145,29 @@ const TransactionTable = () => {
     pdf.save("table.pdf");
   };
 
+  //Debounced Search
+  const debounce = (func, delay = 500) => {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  // search Functionality
+
+  const handleSearch = useCallback(
+    debounce((event) => {
+      setSearchResults(event.target.value);
+    }, 1000),
+    []
+  );
+
+  useEffect(() => {
+    console.log(searchResults);
+  }, [searchResults]);
   return (
     <>
       <div className="relative w-full px-5 py-5 bg-white mb-[105px] rounded-xl h-fit">
@@ -171,7 +200,7 @@ const TransactionTable = () => {
               type="text"
               placeholder="Search..."
               className="h-8 py-1 pl-3 text-sm border rounded-md border-slate-300 outline-slate-400"
-              // onChange={handleSearch}
+              onChange={handleSearch}
             />
             <div
               className="relative flex flex-col items-center"
@@ -251,14 +280,11 @@ const TransactionTable = () => {
           </div>
         </div>
 
-        {/* {searchResults.length > 0 ? ( */}
         <Table
           setSelectedTransaction={setSelectedTransaction}
           transactionType={transactionType}
+          searchResults={searchResults}
         />
-        {/* ) : (
-          <article>No Matching Transaction</article>
-        )} */}
       </div>
     </>
   );

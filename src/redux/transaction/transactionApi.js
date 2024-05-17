@@ -11,16 +11,22 @@ export const transactionApi = createApi({
   tagTypes: ["Transaction"],
   endpoints: (builder) => ({
     getTransactions: builder.query({
-      query: ({ type }) => ({
-        url: type
-          ? `${TRANSACTIONURL}/get-Transaction?type=${type}`
-          : `${TRANSACTIONURL}/get-Transaction`,
-        method: "GET",
-      }),
+      query: ({ type, search }) => {
+        const params = new URLSearchParams();
+        if (type) params.append("type", type);
+        if (search) params.append("search", search);
+        return {
+          url: `${TRANSACTIONURL}/get-Transaction?${params.toString()}`,
+          method: "GET",
+        };
+      },
       providesTags: (result, error, { type }) => {
-        return [{ type: "Transaction", id: type, user: result.data[0].user }];
+        return result
+          ? result.data.map(({ _id }) => ({ type: "Transaction", id: _id }))
+          : [{ type: "Transaction", id: "LIST" }];
       },
     }),
+
     createTransaction: builder.mutation({
       query: (data) => ({
         url: `${TRANSACTIONURL}/create-Transaction`,

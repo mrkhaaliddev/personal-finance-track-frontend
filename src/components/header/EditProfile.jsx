@@ -98,16 +98,13 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="bg-white w-full flex flex-col gap-5 px-3 md:px-16 lg:px-28 md:flex-row text-[#161931]">
+    <div className="bg-white w-full lg:pl-96 flex flex-col gap-5 px-3 md:px-16 lg:px-28 md:flex-row text-[#161931]">
       <ToastContainer />
       <main className="w-full min-h-screen py-1 md:w-2/3 lg:w-4/4">
         <div className="p-2 md:p-4">
           <div className="w-full px-6 pb-8 mt-8 sm:max-w-xl sm:rounded-lg">
-            {/* <h2 className="pl-6 text-2xl font-bold lg:ml-52 sm:text-xl">
-              Public Profile
-            </h2> */}
             <div className="grid max-w-2xl mx-auto mt-8">
-              <div className="flex flex-col items-center space-y-5 sm:flex-row sm:space-y-0">
+              <div className="flex items-center lg:space-y-5 lg:flex-col sm:flex-row sm:space-y-0">
                 {userInfo.imageUrl ? (
                   <img
                     className="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"

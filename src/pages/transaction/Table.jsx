@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext } from "react";
 import { Edit, Trash } from "react-feather";
 import {
   useDeleteTransactionMutation,
@@ -10,10 +10,12 @@ import "sweetalert2/src/sweetalert2.scss";
 import { ModelShowContext } from "../../context/ModelShow";
 import TransectionSkeleton from "./TransectionSkeleton";
 
-const Table = ({ setSelectedTransaction, transactionType }) => {
+const Table = ({ setSelectedTransaction, transactionType, searchResults }) => {
   const { data, isLoading } = useGetTransactionsQuery({
     type: transactionType,
+    search: searchResults,
   });
+
   // setTransactionData(data?.data || []);
   const [DeleteTransaction, { isLoading: isDeleting }] =
     useDeleteTransactionMutation();
