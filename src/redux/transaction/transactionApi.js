@@ -16,7 +16,9 @@ export const transactionApi = createApi({
         if (type) params.append("type", type);
         if (search) params.append("search", search);
         return {
-          url: `${TRANSACTIONURL}/get-Transaction?${params.toString()}`,
+          url: params.toString()
+            ? `${TRANSACTIONURL}/get-Transaction?${params.toString()}`
+            : `${TRANSACTIONURL}/get-Transaction`,
           method: "GET",
         };
       },
@@ -27,6 +29,14 @@ export const transactionApi = createApi({
       },
     }),
 
+    getLastTransactions: builder.query({
+      query: () => ({
+        url: `${TRANSACTIONURL}/last-transactions`,
+        method: "GET",
+      }),
+      providesTags: ["Transaction"],
+    }),
+
     createTransaction: builder.mutation({
       query: (data) => ({
         url: `${TRANSACTIONURL}/create-Transaction`,
@@ -35,6 +45,7 @@ export const transactionApi = createApi({
       }),
       invalidatesTags: ["Transaction"],
     }),
+
     deleteTransaction: builder.mutation({
       query: (transactionID) => ({
         url: `${TRANSACTIONURL}/delete-Transaction/${transactionID}`,
@@ -42,6 +53,7 @@ export const transactionApi = createApi({
       }),
       invalidatesTags: ["Transaction"],
     }),
+
     updateTransaction: builder.mutation({
       query: ({ data, id }) => ({
         url: `${TRANSACTIONURL}/update-Transaction/${id}`,
@@ -50,6 +62,7 @@ export const transactionApi = createApi({
       }),
       invalidatesTags: ["Transaction"],
     }),
+
     totalIncomeAggrigate: builder.query({
       query: () => ({
         url: `${TRANSACTIONURL}/Totalincome-aggrigation`,
@@ -57,6 +70,7 @@ export const transactionApi = createApi({
       }),
       providesTags: ["Transaction"],
     }),
+
     totalExpenseAggrigate: builder.query({
       query: () => ({
         url: `${TRANSACTIONURL}/Totalexpense-aggrigation`,
@@ -64,6 +78,7 @@ export const transactionApi = createApi({
       }),
       providesTags: ["Transaction"],
     }),
+
     monthIncome: builder.query({
       query: () => ({
         url: `${TRANSACTIONURL}/MonthIncome`,
@@ -71,6 +86,7 @@ export const transactionApi = createApi({
       }),
       providesTags: ["Transaction"],
     }),
+
     monthExpense: builder.query({
       query: () => ({
         url: `${TRANSACTIONURL}/MonthExpense`,
@@ -78,10 +94,21 @@ export const transactionApi = createApi({
       }),
       providesTags: ["Transaction"],
     }),
+
     getTransactionBalance: builder.query({
       query: () => ({
         url: `${TRANSACTIONURL}/balance`,
       }),
+      providesTags: ["Transaction"],
+    }),
+
+    getTransactionGraphData: builder.query({
+      query: () => ({
+        url: `${TRANSACTIONURL}/month-payments`,
+        method: "GET",
+      }),
+      providesTags: ["Transaction"],
+      // providesTags: (result, error, { type }) => result ? result.data.map(({ _id }) => ({ type: "Transaction", id: _id })) : ["Transaction"],
     }),
   }),
 });
@@ -96,4 +123,6 @@ export const {
   useMonthIncomeQuery,
   useMonthExpenseQuery,
   useGetTransactionBalanceQuery,
+  useGetTransactionGraphDataQuery,
+  useGetLastTransactionsQuery,
 } = transactionApi;

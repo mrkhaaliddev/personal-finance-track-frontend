@@ -161,7 +161,7 @@ const TransactionTable = () => {
   const handleSearch = useCallback(
     debounce((event) => {
       setSearchResults(event.target.value);
-    }, 1000),
+    }, 500),
     []
   );
 

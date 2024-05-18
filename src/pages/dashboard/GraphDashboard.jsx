@@ -1,7 +1,7 @@
 import React from "react";
 import { Chart as Chartjs, defaults } from "chart.js/auto";
 import { Line } from "react-chartjs-2";
-import revenueData from "../../data/revenueData.json";
+import { useGetTransactionGraphDataQuery } from "@/redux/transaction/transactionApi";
 
 defaults.maintainAspectRatio = false;
 defaults.responsive = true;
@@ -13,16 +13,22 @@ defaults.plugins.title.padding = 10;
 defaults.plugins.title.color = "black";
 
 const GraphDashboard = () => {
+  const { data: data } = useGetTransactionGraphDataQuery();
+  const months = data?.data;
+  console.log(months);
+  // console.log(months?.map((data) => data.totalIncome));
+  // console.log(months?.map((data) => data.month));
+  // console.log(months?.map((data) => data.totalExpense));
   return (
     <>
-      <div className="w-[815px] mb-5 bg-white h-[360px] rounded-xl flex text-center items-center justify-center border-none p-5">
+      <div className="w-[74%] mb-5 bg-white h-[400px] rounded-xl flex text-center items-center justify-center border-none p-5">
         <Line
           data={{
-            labels: revenueData.map((data) => data.label),
+            labels: months?.map((data) => data.month),
             datasets: [
               {
-                label: "Income",
-                data: revenueData.map((data) => data.Income),
+                label: "income",
+                data: months?.map((data) => data.totalIncome),
                 backgroundColor: "#BED5F1",
                 borderColor: "#BED5F1",
                 borderJoinStyle: "round",
@@ -31,8 +37,8 @@ const GraphDashboard = () => {
                 pointHoverBorderWidth: 3,
               },
               {
-                label: "Expenses",
-                data: revenueData.map((data) => data.expenses),
+                label: "expense",
+                data: months?.map((data) => data.totalExpense),
                 backgroundColor: "#FFB7AF",
                 borderColor: "#FFB7AF",
                 borderJoinStyle: "round",
