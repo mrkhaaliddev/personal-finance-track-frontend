@@ -11,10 +11,12 @@ export const transactionApi = createApi({
   tagTypes: ["Transaction"],
   endpoints: (builder) => ({
     getTransactions: builder.query({
-      query: ({ type, search }) => {
+      query: ({ type, search, page, per_page }) => {
         const params = new URLSearchParams();
         if (type) params.append("type", type);
         if (search) params.append("search", search);
+        if (page) params.append("page", page);
+        if (per_page) params.append("per_page", per_page);
         return {
           url: params.toString()
             ? `${TRANSACTIONURL}/get-Transaction?${params.toString()}`

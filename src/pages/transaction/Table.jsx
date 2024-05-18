@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { Edit, Trash } from "react-feather";
 import {
   useDeleteTransactionMutation,
@@ -9,12 +9,21 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
 import { ModelShowContext } from "../../context/ModelShow";
 import TransectionSkeleton from "./TransectionSkeleton";
+import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 
 const Table = ({ setSelectedTransaction, transactionType, searchResults }) => {
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 10;
   const { data, isLoading } = useGetTransactionsQuery({
     type: transactionType,
     search: searchResults,
+    page: page,
+    per_page: PAGE_SIZE,
   });
+
+  const totalPages = Math.ceil(data?.total / PAGE_SIZE);
+  console.log("totalPages", totalPages);
+  console.log("page", page);
 
   // setTransactionData(data?.data || []);
   const [DeleteTransaction, { isLoading: isDeleting }] =
@@ -119,6 +128,25 @@ const Table = ({ setSelectedTransaction, transactionType, searchResults }) => {
             )}
           </tbody>
         </table>
+        <div className="flex items-center justify-end pt-5 pr-20 gap-x-5">
+          <GoArrowLeft
+            disabled={page === 1}
+            onClick={() => page > 1 && setPage(page - 1)}
+            className={`p-1 bg-gray-200 rounded-full cursor-pointer select-none w-7 h-7 ${
+              page === 1 ? "opacity-50" : ""
+            }`}
+          />
+          <span>
+            {page} of {totalPages}
+          </span>
+          <GoArrowRight
+            disabled={page >= totalPages}
+            onClick={() => page < totalPages && setPage(page + 1)}
+            className={`p-1 bg-gray-200 rounded-full cursor-pointer select-none w-7 h-7 ${
+              page >= totalPages ? "opacity-50" : ""
+            }`}
+          />
+        </div>
       </div>
     </>
   );
