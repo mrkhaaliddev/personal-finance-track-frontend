@@ -21,7 +21,7 @@ const GraphDashboard = () => {
   // console.log(months?.map((data) => data.totalExpense));
   return (
     <>
-      <div className="w-[74%] mb-5 bg-white h-[400px] rounded-xl flex text-center items-center justify-center border-none p-5">
+      <div className="w-[70%] mb-5 bg-white h-[400px] rounded-xl flex text-center items-center justify-center border-none p-5">
         <Line
           data={{
             labels: months?.map((data) => data.month),

@@ -20,6 +20,8 @@ import PrivateRoutes from "./components/privateRoutes/PrivateRoutes.jsx";
 import PublicRoutes from "./components/privateRoutes/PublicRoutes.jsx";
 import EditProfile from "./components/header/EditProfile.jsx";
 import Category from "./pages/category/Index.jsx";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const routerProvider = createBrowserRouter([
   {
@@ -117,6 +119,7 @@ const routerProvider = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <React.StrictMode>
+      <ToastContainer />
       <NavBaRProvider>
         <ModelShowProvider>
           <RouterProvider router={routerProvider}></RouterProvider>

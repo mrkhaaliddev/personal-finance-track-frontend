@@ -6,8 +6,7 @@ import {
   useCreateTransactionMutation,
   useUpdateTransactionMutation,
 } from "../../redux/transaction/transactionApi";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { useGetCategoriesQuery } from "../../redux/transaction/categoryApi";
 import moment from "moment";
 
@@ -120,7 +119,7 @@ const TransactionForm = ({ selectedTransaction, setSelectedTransaction }) => {
       }
     } catch (err) {
       console.log(err);
-      toast.error(err?.data?.message || err.error);
+      toast.error(err?.data?.details || err.error);
     }
   };
 
@@ -128,11 +127,10 @@ const TransactionForm = ({ selectedTransaction, setSelectedTransaction }) => {
     <>
       {showModal && (
         <>
-          <ToastContainer />
           <form action="" onSubmit={handleSubmit(submitHandler)}>
             <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
             <div className="relative inset-0 z-50 flex items-center justify-center w-full h-full">
-              <div className="absolute mt-80 -ml-40 w-[700px] h-fit bg-white border border-slate-400 rounded-lg px-5 py-5">
+              <div className="absolute mt-5 -ml-40 w-[700px] h-fit bg-white border border-slate-400 rounded-lg px-5 py-5">
                 <div className="flex items-center justify-between mb-5">
                   <h1 className="text-2xl font-semibold">Transaction Form</h1>
                   <X
@@ -212,7 +210,7 @@ const TransactionForm = ({ selectedTransaction, setSelectedTransaction }) => {
                         : "outline-2 outline-[#157AFF]"
                     }`}
                   />
-                  <small className="text-[16px] text-red-500">
+                  <small className="h-1 text-red-500 w-fit">
                     {errors.transactionDate?.message}
                   </small>
                 </div>
@@ -238,7 +236,7 @@ const TransactionForm = ({ selectedTransaction, setSelectedTransaction }) => {
                     }`}
                     placeholder="Enter Your Name"
                   />
-                  <small className="text-[16px] text-red-500">
+                  <small className="h-1 text-red-500 w-fit">
                     {errors.name?.message}
                   </small>
                 </div>
@@ -270,7 +268,7 @@ const TransactionForm = ({ selectedTransaction, setSelectedTransaction }) => {
                           : "outline-2 outline-[#157AFF]"
                       }`}
                     />
-                    <small className="text-[16px] text-red-500">
+                    <small className="h-1 text-red-500 w-fit">
                       {errors.amount?.message}
                     </small>
                   </div>
@@ -294,7 +292,7 @@ const TransactionForm = ({ selectedTransaction, setSelectedTransaction }) => {
                       })}
                       className={`w-full h-10 border rounded-lg ${
                         errors.category?.message
-                          ? "outline-red-500 border-red-500"
+                          ? "outline-red-500"
                           : "outline-2 outline-[#157AFF]"
                       }`}
                     >
@@ -307,7 +305,7 @@ const TransactionForm = ({ selectedTransaction, setSelectedTransaction }) => {
                           </option>
                         ))}
                     </select>
-                    <small className="text-[16px] text-red-500">
+                    <small className="h-1 text-red-500 w-fit">
                       {errors.category?.message}
                     </small>
                   </div>
@@ -324,7 +322,7 @@ const TransactionForm = ({ selectedTransaction, setSelectedTransaction }) => {
                       className="py-1 pl-2 border rounded-lg border-slate-400 outline-slate-300"
                       placeholder="Desc..."
                     ></textarea>
-                    <small className="pl-2 font-semibold">
+                    <small className="h-1 pl-2 w-fit">
                       {errors.description?.message
                         ? ""
                         : "Add description for your money optional"}
@@ -338,7 +336,12 @@ const TransactionForm = ({ selectedTransaction, setSelectedTransaction }) => {
                   >
                     Cancel
                   </button>
-                  <button className="px-4 py-1 text-white text-lg bg-[#398bff] rounded-md">
+                  <button
+                    disabled={isLoading}
+                    className={`px-4 py-1 text-white text-lg bg-[#398bff] rounded-md ${
+                      isLoading ? "opacity-30	" : ""
+                    }`}
+                  >
                     save
                   </button>
                 </div>

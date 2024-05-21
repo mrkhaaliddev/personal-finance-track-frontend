@@ -6,8 +6,7 @@ import {
   useCreateCategoriesMutation,
   useUpdateCategoriesMutation,
 } from "../../redux/transaction/categoryApi";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const CategoryModal = ({ selectedCategory, setSelectedCategory }) => {
   const { showModal, handleModelShow } = useContext(ModelShowContext);
@@ -101,16 +100,15 @@ const CategoryModal = ({ selectedCategory, setSelectedCategory }) => {
 
   return (
     <>
-      <ToastContainer />
       {showModal && (
         <>
           {" "}
           <form action="" onSubmit={handleSubmit(submitHandler)}>
             <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
             <div className="relative inset-0 z-50 flex items-center justify-center w-full h-full">
-              <div className="absolute mt-[550px] -ml-40 w-[700px] h-fit bg-white border border-slate-400 rounded-lg px-5 py-5">
+              <div className="absolute mt-64 -ml-40 w-[700px] h-fit bg-white border border-slate-400 rounded-lg px-5 py-5">
                 <div className="flex items-center justify-between mb-5">
-                  <h1 className="text-2xl font-semibold">Transaction Form</h1>
+                  <h1 className="text-2xl font-semibold">Category Form</h1>
                   <X
                     onClick={handleClose}
                     className="cursor-pointer text-slate-500 hover:text-slate-800"
@@ -139,7 +137,7 @@ const CategoryModal = ({ selectedCategory, setSelectedCategory }) => {
                     }`}
                     placeholder="Enter Your type"
                   />
-                  <small className="text-[16px] text-red-500">
+                  <small className="text-[16px] text-red-500 w-fit h-1">
                     {errors.type?.message}
                   </small>
                 </div>
@@ -157,7 +155,7 @@ const CategoryModal = ({ selectedCategory, setSelectedCategory }) => {
                       className="py-1 pl-2 border rounded-lg border-slate-400 outline-slate-300"
                       placeholder="Desc..."
                     ></textarea>
-                    <small className="pl-2 font-semibold">
+                    <small className="h-1 pl-2 font-semibold w-fit">
                       {errors.description?.message
                         ? ""
                         : "Add description for your category"}
@@ -173,7 +171,7 @@ const CategoryModal = ({ selectedCategory, setSelectedCategory }) => {
                     type="checkbox"
                     style={{ width: "20px", height: "20px" }}
                   />
-                  <small className="text-[16px] text-red-500">
+                  <small className="text-[16px] text-red-500 w-fit h-1">
                     {errors.status?.message}
                   </small>
                 </div>
@@ -184,7 +182,12 @@ const CategoryModal = ({ selectedCategory, setSelectedCategory }) => {
                   >
                     Cancel
                   </button>
-                  <button className="px-4 py-1 text-white text-lg bg-[#398bff] rounded-md">
+                  <button
+                    disabled={isLoading}
+                    className={`px-4 py-1 text-white text-lg bg-[#398bff] rounded-md ${
+                      isLoading ? "opacity-30	" : ""
+                    }`}
+                  >
                     save
                   </button>
                 </div>

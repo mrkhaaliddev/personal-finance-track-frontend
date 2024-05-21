@@ -6,13 +6,10 @@ import {
 } from "../../redux/transaction/categoryApi";
 import moment from "moment";
 import { Skeletoncatgory } from "./Skeletoncatgory";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import { ModelShowContext } from "../../context/ModelShow";
-// import Swal from 'sweetalert2/dist/sweetalert2.js'
-// import 'sweetalert2/src/sweetalert2.scss'
 
 const Table = ({ selectedCategory, setSelectedCategory }) => {
   const { showModal, handleModelShow } = useContext(ModelShowContext);
@@ -64,11 +61,11 @@ const Table = ({ selectedCategory, setSelectedCategory }) => {
   return (
     <>
       <div>
-        <ToastContainer />
         {/* <TransactionsDataTable /> */}
         <table className="table-auto w-[100%] mt-4 rounded-lg overflow-hidden">
           <thead className="bg-white text-[#121B28] border">
             <tr>
+              <th className="px-2 py-2 text-start">No</th>
               <th className="px-2 py-2 text-start">Date</th>
               <th className="px-2 py-2 text-start">Category</th>
               <th className="px-4 py-2 text-start">Description</th>
@@ -77,10 +74,11 @@ const Table = ({ selectedCategory, setSelectedCategory }) => {
             </tr>
           </thead>
           <tbody className="text-gray-700 bg-white border">
-            {data?.data?.map((category) => {
+            {data?.data?.map((category, index) => {
               // console.log(category.status);
               return (
                 <tr key={category._id}>
+                  <td className="px-2 py-2">{index + 1}</td>
                   <td className="px-2 py-2">
                     {moment(category.createdAt).format("DD/MM/YYYY")}
                   </td>

@@ -15,7 +15,7 @@ const CategoryTable = () => {
 
   return (
     <>
-      <div className="relative w-[85%] mt-20 px-5 py-5 bg-white mx-20 rounded-xl h-fit ">
+      <div className="relative w-[85%] mt-20 px-5 py-5 bg-white ml-10 rounded-xl h-fit ">
         <CategoryModal
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}

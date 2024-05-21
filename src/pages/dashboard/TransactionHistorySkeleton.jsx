@@ -1,9 +1,8 @@
 import React from "react";
 
-const TransectionSkeleton = () => {
-  const numRows = 9;
-  const numCols = 6;
-
+const TransactionHistorySkeleton = () => {
+  const numRows = 6;
+  const numCols = 3;
   return (
     <div className="animate-pulse">
       <table className="w-full">
@@ -12,7 +11,7 @@ const TransectionSkeleton = () => {
             <tr key={Math.random()}>
               {Array.from({ length: numCols }, () => (
                 <td className="px-6 py-4" key={Math.random()}>
-                  <div className="w-full h-6 bg-gray-300 rounded"></div>
+                  <div className="w-full h-4 bg-gray-300 rounded"></div>
                 </td>
               ))}
             </tr>
@@ -23,4 +22,4 @@ const TransectionSkeleton = () => {
   );
 };
 
-export default TransectionSkeleton;
+export default TransactionHistorySkeleton;

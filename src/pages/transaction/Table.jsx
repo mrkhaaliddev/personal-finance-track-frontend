@@ -10,6 +10,7 @@ import "sweetalert2/src/sweetalert2.scss";
 import { ModelShowContext } from "../../context/ModelShow";
 import TransectionSkeleton from "./TransectionSkeleton";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
+import { toast } from "react-toastify";
 
 const Table = ({ setSelectedTransaction, transactionType, searchResults }) => {
   const [page, setPage] = useState(1);
@@ -22,8 +23,8 @@ const Table = ({ setSelectedTransaction, transactionType, searchResults }) => {
   });
 
   const totalPages = Math.ceil(data?.total / PAGE_SIZE);
-  console.log("totalPages", totalPages);
-  console.log("page", page);
+  // console.log("totalPages", totalPages);
+  // console.log("page", page);
 
   // setTransactionData(data?.data || []);
   const [DeleteTransaction, { isLoading: isDeleting }] =
@@ -44,6 +45,7 @@ const Table = ({ setSelectedTransaction, transactionType, searchResults }) => {
       if (result.isConfirmed) {
         try {
           const res = await DeleteTransaction(id).unwrap();
+          toast.success("Transaction deleted successfully");
           Swal.fire(
             "Deleted!",
             "Your transaction has been deleted.",
@@ -75,18 +77,24 @@ const Table = ({ setSelectedTransaction, transactionType, searchResults }) => {
         <table className="w-full mt-4 overflow-hidden rounded-lg table-auto">
           <thead className="bg-white text-[#121B28] border">
             <tr>
+              <th className="px-2 py-2 text-start">No</th>
               <th className="px-2 py-2 text-start">Date</th>
               <th className="px-2 py-2 text-start">Name</th>
-              <th className="px-4 py-2 text-start">Description</th>
-              <th className="px-4 py-2 text-start">Category</th>
-              <th className="px-4 py-2 text-start">Amount</th>
-              <th className="px-4 py-2 text-start">Actions</th>
+              <th width="35%" className="w-10 py-2 text-start">
+                Description
+              </th>
+              <th className="px-2 py-2 text-start">Category</th>
+              <th className="px-2 py-2 text-start">Amount</th>
+              <th className="px-2 py-2 text-start">Actions</th>
             </tr>
           </thead>
           <tbody className="text-gray-700 bg-white border">
             {data?.data.length > 0 ? (
-              data.data.map((transaction) => (
-                <tr key={transaction._id}>
+              data.data.map((transaction, index) => (
+                <tr key={index}>
+                  <td className="px-2 py-2">
+                    {(page - 1) * PAGE_SIZE + index + 1}
+                  </td>
                   <td className="px-2 py-2">
                     {moment(transaction.transactionDate).format("DD/MM/YYYY")}
                   </td>

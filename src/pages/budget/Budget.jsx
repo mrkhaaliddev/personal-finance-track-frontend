@@ -1,6 +1,7 @@
 import React from "react";
 import SideBar from "../../components/sideBar/SideBar.";
 import Header from "../../components/header/Header";
+import BudgetTable from "./BudgetTable";
 
 const Budget = () => {
   return (
@@ -8,9 +9,9 @@ const Budget = () => {
       <div>
         <SideBar />
       </div>
-      <div className="bg-[#F5F5F5] w-[100%] min-h-[100%] ml-60 ">
+      <div className="bg-[#F5F5F5] w-[100%] min-h-[100svh] ml-60 ">
         <Header />
-        <h1>Hello this is a Budget Page still under development</h1>
+        <BudgetTable />
       </div>
     </div>
   );
