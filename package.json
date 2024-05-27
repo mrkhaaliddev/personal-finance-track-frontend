@@ -31,6 +31,7 @@
     "react-to-print": "^2.15.1",
     "react-toastify": "^10.0.5",
     "react-tooltip": "^5.26.3",
+    "rsuite": "^5.61.0",
     "styled-components": "^6.1.8",
     "sweetalert2": "^11.10.8",
     "tailwind-merge": "^2.3.0",

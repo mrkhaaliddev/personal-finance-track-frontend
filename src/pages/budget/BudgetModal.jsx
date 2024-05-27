@@ -8,6 +8,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { X } from "react-feather";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 
 const BudgetModal = ({ selectedBudget, setSelectedBudget }) => {
   const { showModal, handleModelShow } = useContext(ModelShowContext);
@@ -61,9 +63,9 @@ const BudgetModal = ({ selectedBudget, setSelectedBudget }) => {
 
   const income = watch("annualIncome");
   const expense = watch("annualExpense");
-  console.log(income, expense);
+  // console.log(income, expense);
 
-  console.log("before", annualIncome, annualExpense);
+  // console.log("before", annualIncome, annualExpense);
 
   useEffect(() => {
     setAnnualIncome(income);
@@ -72,8 +74,8 @@ const BudgetModal = ({ selectedBudget, setSelectedBudget }) => {
     setBalance(Balance);
   }, [income, expense]);
 
-  console.log("after", annualIncome, annualExpense);
-  console.log("balance", balance);
+  // console.log("after", annualIncome, annualExpense);
+  // console.log("balance", balance);
 
   const submitHandler = async (data) => {
     const { annualIncome, annualExpense, startDate, dueDate } = data;
@@ -166,7 +168,7 @@ const BudgetModal = ({ selectedBudget, setSelectedBudget }) => {
                   {errors.annualExpense?.message}
                 </small>
               </div>
-              <div className="h-14 w-fit">
+              <div className="w-full h-14">
                 {balance && balance !== 0 && annualExpense && annualIncome ? (
                   <div
                     className={`p-3 mb-4 text-sm ${
@@ -195,6 +197,12 @@ const BudgetModal = ({ selectedBudget, setSelectedBudget }) => {
                   <label htmlFor="startDate" className="font-semibold">
                     Start Date
                   </label>
+                  {/* <DatePicker
+                    selected={startDate}
+                     onChange={(date) => setStartDate(date)}
+                    excludeDates={disabledDates} // Disable specific dates
+                    placeholderText="Select a date"
+                  /> */}
                   <input
                     {...register("startDate", {
                       required: "Start Date Is Required",

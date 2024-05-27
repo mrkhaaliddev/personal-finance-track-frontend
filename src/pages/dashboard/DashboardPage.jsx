@@ -8,10 +8,10 @@ const DashboardPage = () => {
     <>
       <div className="mx-10 mt-6 ">
         <ResultBoxes />
-        <div className="flex gap-5">
-          <GraphDashboard />
-          <TransactionHistory />
-        </div>
+        {/* <div className="flex gap-5"> */}
+        <GraphDashboard />
+        <TransactionHistory />
+        {/* </div> */}
       </div>
     </>
   );

@@ -44,6 +44,46 @@ export const budgetApi = createApi({
       }),
       invalidatesTags: ["Budget"],
     }),
+    // total Income Budget
+    getIncomeBudget: builder.query({
+      query: () => ({
+        url: `${budgetUrl}//totalIncome_aggrigation`,
+        method: "GET",
+      }),
+      providesTags: ["Budget"],
+    }),
+    //total Expense Budget
+    getExpenseBudget: builder.query({
+      query: () => ({
+        url: `${budgetUrl}/totalExpense_aggrigation`,
+        method: "GET",
+      }),
+      providesTags: ["Budget"],
+    }),
+    // month income budget
+    getMonthIncomeBudget: builder.query({
+      query: () => ({
+        url: `${budgetUrl}/monthIncome_aggrigation`,
+        method: "GET",
+      }),
+      providesTags: ["Budget"],
+    }),
+
+    // month expense budget
+    getMonthExpenseBudget: builder.query({
+      query: () => ({
+        url: `${budgetUrl}/monthExpense_aggrigation`,
+        method: "GET",
+      }),
+      providesTags: ["Budget"],
+    }),
+    getGraphData: builder.query({
+      query: () => ({
+        url: `${budgetUrl}/graph_monthly_data`,
+        method: "GET",
+      }),
+      providesTags: ["Budget"],
+    }),
   }),
 });
 
@@ -52,4 +92,9 @@ export const {
   useCreateBudgetMutation,
   useUpdateBudgetMutation,
   useDeleteBudgetMutation,
+  useGetIncomeBudgetQuery,
+  useGetExpenseBudgetQuery,
+  useGetMonthIncomeBudgetQuery,
+  useGetMonthExpenseBudgetQuery,
+  useGetGraphDataQuery,
 } = budgetApi;
