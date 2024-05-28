@@ -16,11 +16,8 @@ const authSlice = createSlice({
       localStorage.setItem("userInfo", JSON.stringify(action.payload));
     },
     logout: (state) => {
-      // Normalized to camelCase
       state.userInfo = null;
       localStorage.removeItem("userInfo");
-      // this making to clear all the state
-      // dispatch(api.util.resetApiState());
       window.location.reload();
     },
   },

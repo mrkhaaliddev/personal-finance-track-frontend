@@ -3,6 +3,7 @@ import { usersSlice } from "./usersSlice";
 const USERS_URL = "/api/users";
 
 const authUserSlice = usersSlice.injectEndpoints({
+  tagTypes: ["Users"],
   endpoints: (builder) => ({
     Login: builder.mutation({
       query: (data) => ({
@@ -30,6 +31,22 @@ const authUserSlice = usersSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Users"],
+    }),
+    getProfile: builder.query({
+      query: () => ({
+        url: `${USERS_URL}/get-Profile`,
+        method: "GET",
+      }),
+      providesTags: ["Users"],
+    }),
+    updateProfileImage: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/update-image`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Users"],
     }),
   }),
 });
@@ -39,4 +56,6 @@ export const {
   useLogoutMutation,
   useRegisterMutation,
   useUpdateProfileMutation,
+  useGetProfileQuery,
+  useUpdateProfileImageMutation,
 } = authUserSlice;

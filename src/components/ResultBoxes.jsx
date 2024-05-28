@@ -135,7 +135,6 @@ const ResultBoxes = () => {
   if (BudgetExpense?.results?.length) {
     Budgetexpense = BudgetExpense?.results[0].totalExpense;
   }
-  console.log(Budgetexpense);
 
   const formattedBudgetExpense =
     Budgetexpense &&
@@ -229,7 +228,7 @@ const ResultBoxes = () => {
                 ) : (
                   `(${formattedBudgetExpense})`
                 )}
-              </p>{" "}
+              </p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -276,7 +275,7 @@ const ResultBoxes = () => {
                 ) : (
                   `(${formattedMonthBudgetIncome})`
                 )}
-              </p>{" "}
+              </p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -315,7 +314,7 @@ const ResultBoxes = () => {
                 ) : (
                   `(${formattedMonthBudgetExpense})`
                 )}
-              </p>{" "}
+              </p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

@@ -4,7 +4,10 @@ import userIcon from "../../assets/user.png";
 import { AlignLeft } from "react-feather";
 import { NavBarHiddenContext } from "../../context/NavBarHidden";
 import { useDispatch, useSelector } from "react-redux";
-import { useLogoutMutation } from "../../redux/users/authUserSlice";
+import {
+  useGetProfileQuery,
+  useLogoutMutation,
+} from "../../redux/users/authUserSlice";
 import { logout } from "../../redux/users/authSlice";
 // import { LuUser } from "react-icons/lu";
 import { LuUser } from "react-icons/lu";
@@ -21,6 +24,9 @@ const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
 
   const [Logout] = useLogoutMutation();
+  const { data: profileData, isLoading } = useGetProfileQuery();
+
+  console.log(profileData?.user?.imageUrl);
 
   // this will make you go login page and it's logout functionality
   const handleLogout = async () => {
@@ -38,25 +44,16 @@ const Header = () => {
   };
 
   useEffect(() => {
-    // Define the function that handles clicks outside the profile
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
-        // console.log("Click outside profile");
-        setProfileShow(false); // Optionally close the profile menu
+        setProfileShow(false);
       }
     };
-
-    // Add the event listener when the component mounts or profileShow changes
     document.addEventListener("mousedown", handleClickOutside);
-
-    // Return a cleanup function to remove the event listener
-    // when the component unmounts or before re-running the effect
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [profileShow]); // Dependency array to re-run the effect if profileShow changes
-
-  console.log(userInfo.imageUrl);
+  }, [profileShow]);
 
   return (
     <>
@@ -83,35 +80,19 @@ const Header = () => {
             title="Profile"
           >
             <div>
-              {/* <RiUserFill /> */}
               <LuUser style={{ width: "20px", height: "20px" }} />
             </div>
             <h1 className="text-lg font-semibold select-text cursor-text text-custom-dark">
-              {userInfo.name}
+              {isLoading ? "name" : profileData?.user?.name}
             </h1>
           </div>
 
-          {/* <button
-            data-tooltip-target="tooltip-default"
-            type="button"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Default tooltip
-          </button>
-
-          <div
-            id="tooltip-default"
-            role="tooltip"
-            class="absolute z-10 invisible :hover:visible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-          >
-            Tooltip content
-            <div class="tooltip-arrow" data-popper-arrow></div>
-          </div> */}
-
-          {userInfo.imageUrl ? (
+          {profileData?.user?.imageUrl ? (
             <img
               className="object-cover w-12 h-12 p-[1px] rounded-full ring-2 ring-[#3e6293] dark:ring-[#3e6293] cursor-pointer"
-              src={"http://localhost:5000/uploads/" + userInfo.imageUrl}
+              src={
+                "http://localhost:5000/uploads/" + profileData?.user?.imageUrl
+              }
               onClick={handleProfileClick}
               alt="Bordered avatar"
             />

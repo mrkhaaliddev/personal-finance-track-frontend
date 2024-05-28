@@ -29,7 +29,7 @@ const TransactionHistory = () => {
               <tbody className="text-gray-700 bg-white border">
                 {data?.data.length ? (
                   data?.data.map((data, index) => (
-                    <tr className="border w-fit">
+                    <tr className="border w-fit" key={index}>
                       <td className="px-2 py-2">{index + 1}</td>
                       <td className="px-2 py-2">
                         {moment(data.transactionDate).format("DD/MM/YYYY")}
@@ -52,7 +52,7 @@ const TransactionHistory = () => {
                               style: "currency",
                               currency: "USD",
                             })}`}
-                      </td>{" "}
+                      </td>
                     </tr>
                   ))
                 ) : (

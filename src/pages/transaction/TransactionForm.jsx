@@ -339,10 +339,10 @@ const TransactionForm = ({ selectedTransaction, setSelectedTransaction }) => {
                   <button
                     disabled={isLoading}
                     className={`px-4 py-1 text-white text-lg bg-[#398bff] rounded-md ${
-                      isLoading ? "opacity-30	" : ""
+                      isLoading ? "opacity-80	" : ""
                     }`}
                   >
-                    save
+                    {`${isLoading ? "Saving..." : "save"}`}
                   </button>
                 </div>
               </div>

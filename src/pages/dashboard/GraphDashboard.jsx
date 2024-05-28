@@ -28,13 +28,9 @@ const GraphDashboard = () => {
   const months = Graphdata?.data;
   const monthData = budgetData?.data[0];
 
-  console.log("budgetData", monthData);
-
   const incomeData = Array(12).fill(monthData?.monthlyIncome);
   const expenseData = Array(12).fill(monthData?.monthlyExpense);
 
-  console.log("incomeData", incomeData);
-  console.log("expenseData", expenseData);
   const data = {
     // months?.map((data) => data.month)
     labels: [

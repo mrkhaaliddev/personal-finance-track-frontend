@@ -1,14 +1,15 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useUpdateProfileMutation } from "../../redux/users/authUserSlice";
+import {
+  useGetProfileQuery,
+  useUpdateProfileImageMutation,
+  useUpdateProfileMutation,
+} from "../../redux/users/authUserSlice";
 import AsyncHandler from "express-async-handler";
 import { setCredentials } from "../../redux/users/authSlice";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import userIcon from "../../assets/user.png";
-// import dotenv from "dotenv";
-// import "./EditProfile.css"; // Import the CSS file
 
 const EditProfile = () => {
   const user = useSelector((state) => state.auth);
@@ -22,54 +23,50 @@ const EditProfile = () => {
 
   // dotenv.config();
 
-  // console.log(process.env.PROFILE_URL);
+  // console.log("env import", import.meta.env.VITE_PROFILE_URL);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { userInfo } = useSelector((state) => state.auth);
 
-  console.log(userInfo);
+  // console.log(userInfo);
 
   const [UpdateProfile] = useUpdateProfileMutation();
+  const { data: profileData, isLoading } = useGetProfileQuery();
+  const [profileImage] = useUpdateProfileImageMutation();
 
-  // file click
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
-
     setImageUrl(file);
+    const data = new FormData();
+    data.append("image", file);
+
+    try {
+      const res = await profileImage(data).unwrap();
+      console.log("image uploaded", res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    // Check password match before submitting
     if (newPassword !== confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
 
-    // Check if newPassword has a value and oldPassword doesn't have
     if (newPassword && !oldPassword) {
       toast.error("Please enter your old password");
       return;
     }
 
-    // Check if new password is at least 8 characters long only if a new password is entered
     if (newPassword && newPassword.length < 8) {
       toast.error("New password must be at least 8 characters long");
       return;
     }
-
-    if (imageUrl) {
-      // setImageUrl(document.getElementById("fileInput").files[0]);
-      console.log(imageUrl);
-    }
-
-    // if (imageUrl.startsWith("blob:")) {
-    //   setImageUrl(URL.revokeObjectURL(imageUrl));
-    //   console.log(imageUrl);
-    // }
 
     const data = new FormData();
     data.append("name", name);
@@ -80,16 +77,16 @@ const EditProfile = () => {
     data.append("image", imageUrl);
 
     try {
-      const res = await UpdateProfile(data).unwrap();
+      if (data || imageUrl) {
+        const res = await UpdateProfile(data).unwrap();
 
-      // Assuming the unwrap function correctly parses the JSON response and throws an error if the API responded with an error status
-      dispatch(setCredentials({ ...res }));
-      toast.success("Profile updated successfully");
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
+        dispatch(setCredentials({ ...res }));
+        toast.success("Profile updated successfully");
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      }
     } catch (error) {
-      // Assuming the error object contains a data property with the message
       console.log(error.data.message);
       toast.error(
         error.data.message || "An error occurred while updating the profile"
@@ -99,16 +96,18 @@ const EditProfile = () => {
 
   return (
     <div className="bg-white w-full lg:pl-96 flex flex-col gap-5 px-3 md:px-16 lg:px-28 md:flex-row text-[#161931]">
-      <ToastContainer />
       <main className="w-full min-h-screen py-1 md:w-2/3 lg:w-4/4">
         <div className="p-2 md:p-4">
           <div className="w-full px-6 pb-8 mt-8 sm:max-w-xl sm:rounded-lg">
             <div className="grid max-w-2xl mx-auto mt-8">
               <div className="flex items-center lg:space-y-5 lg:flex-col sm:flex-row sm:space-y-0">
-                {userInfo.imageUrl ? (
+                {profileData?.user?.imageUrl ? (
                   <img
                     className="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
-                    src={"http://localhost:5000/uploads/" + userInfo.imageUrl}
+                    src={
+                      "http://localhost:5000/uploads/" +
+                      profileData?.user?.imageUrl
+                    }
                     alt="Preview"
                   />
                 ) : (
