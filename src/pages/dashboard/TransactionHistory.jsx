@@ -56,7 +56,9 @@ const TransactionHistory = () => {
                     </tr>
                   ))
                 ) : (
-                  <td>No Data here</td>
+                  <tr>
+                    <td className="px-2 py-2 text-center">No Data here</td>
+                  </tr>
                 )}
               </tbody>
             </table>

@@ -48,6 +48,13 @@ const authUserSlice = usersSlice.injectEndpoints({
       }),
       invalidatesTags: ["Users"],
     }),
+    getValidUserJWT: builder.query({
+      query: () => ({
+        url: `${USERS_URL}/get-cookie`,
+        method: "GET",
+      }),
+      providesTags: ["Users"],
+    }),
   }),
 });
 
@@ -58,4 +65,5 @@ export const {
   useUpdateProfileMutation,
   useGetProfileQuery,
   useUpdateProfileImageMutation,
+  useGetValidUserJWTQuery,
 } = authUserSlice;

@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import userIcon from "../../assets/user.png";
 import { ExitIcon } from "@radix-ui/react-icons";
 
-const EditProfile = () => {
+const ProfileSettings = () => {
   const user = useSelector((state) => state.auth);
 
   const [name, setName] = useState(user.userInfo.name || "");
@@ -97,13 +97,6 @@ const EditProfile = () => {
 
   return (
     <>
-      <button
-        className="flex items-center gap-2 px-3 py-2 m-3 text-white rounded cursor-pointer hover:gap-3 bg-[#121B28]"
-        onClick={() => navigate(-1)}
-      >
-        <ExitIcon className="w-4 h-4" />
-        Go Back
-      </button>
       <div className="w-full lg:pl-96 flex flex-col gap-5 px-3 md:px-16 lg:px-28 md:flex-row text-[#161931]">
         <main className="w-full min-h-screen py-1 md:w-2/3 lg:w-4/4">
           <div className="p-2 md:p-4">
@@ -256,4 +249,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default ProfileSettings;

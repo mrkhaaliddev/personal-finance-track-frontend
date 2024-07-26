@@ -64,7 +64,7 @@ const Login = () => {
               Start managing your finance faster and better
             </p>
           </div>
-          <saction>
+          <section>
             <form
               action=""
               onSubmit={handleSubmit(submitHandler)}
@@ -76,7 +76,7 @@ const Login = () => {
                   className="relative w-full bg-[#F6F7F9]  outline-slate-200 text-sm px-8 py-[12px] rounded-md"
                   type="text"
                   {...register("email", {
-                    required: "Emali is required",
+                    required: "Email is required",
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                       message: "Please enter a valid email",
@@ -98,7 +98,7 @@ const Login = () => {
                       message: "minLength must be 8",
                     },
                   })}
-                  placeholder="At least 8 charecters"
+                  placeholder="At least 8 characters"
                 />
                 <small className="text-red-500">
                   {errors?.password?.message}
@@ -114,7 +114,7 @@ const Login = () => {
                 Login
               </button>
             </form>
-          </saction>
+          </section>
           <div className="flex mb-10 gap-x-4">
             <div className="w-40 border-b border-slate-200"></div>
             <p className="pt-5 text-slate-400">or</p>

@@ -59,7 +59,7 @@ const ResultBoxes = () => {
       currency: "USD",
     });
 
-  // Reading the balance from the database using aggrigation
+  // Reading the balance from the database using aggregation
 
   const { data: Balance, isLoading: BalanceLoading } =
     useGetTransactionBalanceQuery();
